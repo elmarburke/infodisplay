@@ -1,0 +1,2 @@
+# Infodisplay
+Diese CouchApp entstand…
