@@ -1,0 +1,65 @@
+* {
+overflow: hidden;
+}
+body {
+margin: 0;
+padding: 0;
+}
+#main {
+position: absolute;
+left: 0;
+top: 0;
+bottom: 0;
+width: 1420px;
+background-color: black;
+}
+#main img {
+display: none;
+width: auto;
+height: auto;
+overflow: hidden;
+}
+#side {
+position: absolute;
+right: 0;
+width: 500px;
+height: 100%;
+}
+#twitter {
+position: absolute;
+top: 0;
+height: 100%;
+width: 100%;
+background-color: #fff;
+overflow: scroll;
+}
+#twitter .tweet {
+border-bottom: 3px lightblue solid;
+padding: 10px 10px;
+}
+#twitter .tweet:last-child {
+border-bottom: none;
+}
+.tweet p {
+margin: 0;
+}
+.tweet .left {
+float: left;
+padding: 0 10px 0 0;
+}
+.tweet .right {
+float: left;
+width: 422px;
+}
+#twitter img {
+max-width: 48px;
+max-height: 48px;
+}/*
+#departure {
+overflow: hidden;
+position: absolute;
+bottom: 0;
+height: 540px;
+width:640px;
+}
+*/
