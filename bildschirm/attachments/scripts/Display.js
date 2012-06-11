@@ -46,6 +46,7 @@ function Display($db) {
       var img = $('[src="../../'+url+'"]');
       img.each(function(i) {
         $(this).attr("data-active", active);
+        console.log(active);
         $(this).attr("data-start", start);
         $(this).attr("data-end", end);
         $(this).attr("data-id", id);

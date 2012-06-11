@@ -141,7 +141,7 @@
           console.log(data);
           var form = $('form[action="#/new"]');
           form.ajaxSubmit({
-            url: "../../" + data["id"],
+            url: "api/" + data["id"],
             data: {
               "_rev": data["rev"],
               "_id": data["id"]
