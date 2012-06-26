@@ -2,8 +2,8 @@
   var app = $.sammy('#content',
   function() {
     this.use("Mustache", "ms");
-    
-    $db = $.couch.db('api');
+    var dbname = 'api';
+    $db = $.couch.db(dbname);
     
     window.docs = {};
     
@@ -80,13 +80,19 @@
       }
       $db.view("app/allDocs", {
         success: function(data) {
-          console.log("renderd #/")
           for(var i in data.rows) {
             var row = data.rows[i];
             docs[row.id] = row.value;
             row.active = row.value.published[0] ? "checked" : "";
           }
-          context.partial('templates/index.ms', data);
+          $db.openDoc("twitterSearchString", {
+              success: function(twitterString) {
+                  data.searchstring = twitterString.searchstring;
+                  data.searchstringrev = twitterString._rev;
+                  context.partial('templates/index.ms', data);
+              }
+          })
+          
         }
         
       });
@@ -141,7 +147,7 @@
           console.log(data);
           var form = $('form[action="#/new"]');
           form.ajaxSubmit({
-            url: "api/" + data["id"],
+            url: dbname + "/" + data["id"],
             data: {
               "_rev": data["rev"],
               "_id": data["id"]
@@ -171,6 +177,20 @@
       
     })
     
+    this.put("#/twitter/change/:rev", function(context) {
+        var newString = context.params['twitter-search-string'];
+        var rev = context.params.rev;
+        var doc = {
+            "_id": "twitterSearchString",
+            "_rev": rev,
+            "searchstring": newString
+        };
+        $db.saveDoc(doc, {
+            success: function() {
+              context.redirect("#/");
+            }
+        });
+    })
     
   });
   

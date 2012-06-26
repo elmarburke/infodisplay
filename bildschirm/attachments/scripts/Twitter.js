@@ -1,16 +1,30 @@
 function Twitter($db) {
   //var query = "Kleve OR Kamp-Lintfort OR #hsrw -from:kleverwetter -from:wxKleve -from:Kleve_Anzeigen -from:tierep -from:Fengshui_Bad -from:Kleve_ -from:tiepferd";
-  var query = '@HochschuleRW OR "Hochschule Rhein-Waal" OR #hsrw OR hsrw -from:autodrool -from:blessyouNiall';
+  var query = ''; // '@HochschuleRW OR "Hochschule Rhein-Waal" OR #hsrw OR hsrw -from:autodrool -from:blessyouNiall';
+  $db.openDoc("twitterSearchString", {
+    success: function(twitterString) {
+      query = twitterString.searchstring;
+    }, 
+    async: false
+  });
   var $changes = $db.changes();
   $changes.onChange(function (data) {
      for(var i in data.results) {
-       
+       console.log("data.results", data.results[i]);
        $db.openDoc(data.results[i].id, {
          success: function(doc) {
+           console.log(doc);
            if(doc.id && doc.from_user) {
              $.get('templates/tweet.ms').success(function(template) {
                $(Mustache.render(template, doc)).hide().prependTo('#twitter').slideDown();
              })
+           } else if(doc._id == "twitterSearchString") {
+               $db.openDoc("twitterSearchString", {
+                   success: function(twitterString) {
+                     query = twitterString.searchstring;
+                     console.log("Change query", query);
+                   }
+               });
            }
          }
        })

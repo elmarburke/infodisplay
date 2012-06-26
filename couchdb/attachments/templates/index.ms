@@ -1,5 +1,5 @@
 <div class="well span12 ">
-    <a href="#/tweets/delete" class="btn btn-danger">Tweets löschen</a>
+    
     <form class="pull-right" action="#/user/logout">
         <button type="submit" class="btn">Logout</button>
     </form>
@@ -65,6 +65,24 @@
                     <button type="submit" class="btn">Speichern</button>
                 </td>
             </form>
+        </tr>
+        <tr>
+            <td colspan="6">
+                <h2>Twitter</h2>
+            </td>
+        </tr>
+        <tr>
+            <form action="#/twitter/change/{{searchstringrev}}" method="put">
+                <td colspan="3">
+                    <input type="text" name="twitter-search-string" class="span6" value="{{searchstring}}">
+                </td>
+                <td colspan="1">
+                    <button type="submit" class="btn">Speichern</button>
+                </td>
+            </form>
+                <td>
+                    <a href="#/tweets/delete" class="btn btn-danger">Tweets löschen</a>
+                </td>
         </tr>
     </table>
 </div>

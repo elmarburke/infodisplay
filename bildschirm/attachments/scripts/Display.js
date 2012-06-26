@@ -1,6 +1,7 @@
 function Display($db) {
   var images = [];
   var active = false;
+  var dbname = "sys";
   
   var $changes = $db.changes();
   $changes.onChange(function (data) {
@@ -21,29 +22,30 @@ function Display($db) {
   });
   
   function loadImages() {
-    $db.view("display/images", {
-      success: function(data) {
-        var $main = $("#main");
-        //$main.not("img").html("");
-        var images = data.rows;
-        
-        for(var i in images) {
-          var image = images[i];
-          createImage(image.key, image.value.published[0], image.value.published[1], image.value.published[2], image.id, image.value.duration);
-        }
-        
-        if(!active) {
-          change();
-        }
-      }
-    });
+    $.getJSON("./api/_design/display/_view/images").success(function(data) {
+          var $main = $("#main");
+          //$main.not("img").html("");
+          var images = data.rows;
+
+          for(var i in images) {
+            var image = images[i];
+            createImage(image.key, image.value.published[0], image.value.published[1], image.value.published[2], image.id, image.value.duration);
+          }
+
+          if(!active) {
+            change();
+          }
+        });
+    //$db.view("display/images", {
+      
+    //});
   }
   
   function createImage(url, active, start, end, id, duration) {
-    if($('[src="/api/'+url+'"]').length >= 1) {
+    if($('[src="/' + dbname + '/'+url+'"]').length >= 1) {
       // update entry
       
-      var img = $('[src="../../'+url+'"]');
+      var img = $('[src="./'+url+'"]');
       img.each(function(i) {
         $(this).attr("data-active", active);
         console.log(active);
